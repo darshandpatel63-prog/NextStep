@@ -1,32 +1,46 @@
-name: Android Debug APK
+name: Build NextStep APK and publish Release
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
-      - name: Set up Gradle
+
+      - name: Set up Gradle without Actions cache
         uses: gradle/actions/setup-gradle@v4
-      - name: Build debug APK
-        run: gradle --no-daemon assembleDebug
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
         with:
-          name: NextStep-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
-          retention-days: 7
+          gradle-version: "8.9"
+          cache-disabled: true
+
+      - name: Build debug APK
+        run: gradle --no-daemon --stacktrace assembleDebug
+
+      - name: Prepare APK for Release
+        run: cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/NextStep-debug.apk
+
+      - name: Publish APK directly to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nextstep-build-${{github.run_number}}
+          name: NextStep APK build ${{github.run_number}}
+          body: |
+            Automatically built from commit ${{github.sha}}.
+
+            This is a debug APK for testing. It is not a production-signed release.
+          prerelease: true
+          files: app/build/outputs/apk/debug/NextStep-debug.apk
