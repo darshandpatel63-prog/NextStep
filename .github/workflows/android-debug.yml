@@ -1,8 +1,6 @@
 name: Build NextStep APK and publish Release
 
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
