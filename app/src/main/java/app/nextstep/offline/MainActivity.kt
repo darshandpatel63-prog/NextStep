@@ -67,7 +67,7 @@ class MainActivity : Activity() {
 
     private fun home() {
         screen("NextStep", "Everyday problems. One clear next step.\nOffline guides • No account • Checklist saved on this phone")
-        val search = EditText(this).apply { hint = "Search guides"; singleLine = true; textSize = 16f }
+        val search = EditText(this).apply { hint = "Search guides"; isSingleLine = true; textSize = 16f }
         root.addView(search, params())
         val list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         root.addView(list)
