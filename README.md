@@ -11,7 +11,9 @@ Privacy-first native Android MVP. No AI API, backend, login, or user account.
 Features: offline step-by-step guides, locally saved checklists, and copyable message templates.
 
 ## Build and get the APK
-The **Build NextStep APK and publish Release** workflow runs when code is pushed to `main`, or when manually started from the Actions tab. Gradle caching is disabled, and the workflow does not upload Actions artifacts. After a successful build, the APK is attached directly to a GitHub prerelease under **Releases**.
+The **Build NextStep APK and publish Release** workflow is manual-only. It does not run automatically when files are updated or pushed. Open the Actions tab, select the workflow, and press **Run workflow** when you want to build.
+
+Gradle caching is disabled, and the workflow does not upload Actions artifacts. After a successful build, the APK is attached directly to a GitHub prerelease under **Releases**.
 
 Open the repository's **Releases** page and download `NextStep-debug.apk` from the newest NextStep build. This is a debug APK for testing, not a production-signed release.
 
